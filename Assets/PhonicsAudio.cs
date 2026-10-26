@@ -98,7 +98,9 @@ namespace PhonicsIsland
             new System.Collections.Generic.Dictionary<string, string>
             {
                 { "æ", "aah" }, { "ɛ", "eh" }, { "ɪ", "ih" }, { "ɑ", "ah" }, { "ʌ", "uh" },
-                { "ʃ", "shh" }, { "tʃ", "ch" }, { "θ", "th" }, { "i", "ee" }, { "eɪ", "ay" }, { "w", "wuh" }
+                // Spelled so voices say the combined sound, never the letter names ("ch" alone is read "C H").
+                { "ʃ", "shh" }, { "tʃ", "chuh" }, { "θ", "thuh" }, { "i", "ee" }, { "eɪ", "ay" }, { "w", "wuh" },
+                { "u", "ooh" }, { "ʊ", "uh" }, { "aʊ", "ow" }, { "ɔɪ", "oy" }
             };
 
         static string WebSpeechText(string text)

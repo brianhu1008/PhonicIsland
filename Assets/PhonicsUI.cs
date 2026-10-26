@@ -361,7 +361,14 @@ namespace PhonicsIsland
         // ------------------------------------------------------------------
         void DrawMapUI()
         {
-            foreach (MapIsle mi in mapIsles) DrawIsleLabel(mi);
+            // Labels wait until the opening title is gone, so text never overlaps.
+            if (time >= 3f)
+            {
+                Color old = GUI.color;
+                GUI.color = new Color(1f, 1f, 1f, Mathf.Clamp01((time - 3f) * 2f));
+                DrawMapLabels();
+                GUI.color = old;
+            }
 
             if (time < 3f)
             {
@@ -403,24 +410,75 @@ namespace PhonicsIsland
             }
         }
 
-        void DrawIsleLabel(MapIsle mi)
+        // Places every island label near its island, then pushes overlapping labels apart.
+        void DrawMapLabels()
         {
-            bool vis;
-            Vector2 g = ToGui(mi.pos + (mi.index < 0 ? new Vector3(0f, 3f, 0f) : new Vector3(0f, 1f, -2.5f)), out vis);
-            if (!vis) return;
+            var isles = new List<MapIsle>();
+            var rects = new List<Rect>();
+            foreach (MapIsle mi in mapIsles)
+            {
+                bool vis;
+                Vector2 g = ToGui(mi.pos + (mi.index < 0 ? new Vector3(0f, 3f, 0f) : new Vector3(0f, 1f, -2.5f)), out vis);
+                if (!vis) continue;
+                Vector2 size = mi.index < 0 ? new Vector2(200f, 40f) : new Vector2(220f, 84f);
+                isles.Add(mi);
+                rects.Add(new Rect(g.x - size.x * 0.5f, g.y - size.y * 0.5f, size.x, size.y));
+            }
+
+            const float gap = 8f;
+            for (int iter = 0; iter < 40; iter++)
+            {
+                bool moved = false;
+                for (int i = 0; i < rects.Count; i++)
+                {
+                    for (int j = i + 1; j < rects.Count; j++)
+                    {
+                        Rect a = rects[i], b = rects[j];
+                        float ox = Mathf.Min(a.xMax, b.xMax) - Mathf.Max(a.xMin, b.xMin) + gap;
+                        float oy = Mathf.Min(a.yMax, b.yMax) - Mathf.Max(a.yMin, b.yMin) + gap;
+                        if (ox <= 0f || oy <= 0f) continue;
+                        moved = true;
+                        // Push along the direction that needs the smaller move.
+                        if (ox < oy)
+                        {
+                            float s = a.center.x < b.center.x ? -0.5f : 0.5f;
+                            a.x += s * ox;
+                            b.x -= s * ox;
+                        }
+                        else
+                        {
+                            float s = a.center.y < b.center.y ? -0.5f : 0.5f;
+                            a.y += s * oy;
+                            b.y -= s * oy;
+                        }
+                        rects[i] = a;
+                        rects[j] = b;
+                    }
+                }
+                // Keep labels on screen, below the title and above the bottom bar.
+                for (int i = 0; i < rects.Count; i++)
+                {
+                    Rect r = rects[i];
+                    r.x = Mathf.Clamp(r.x, 10f, vw - 10f - r.width);
+                    r.y = Mathf.Clamp(r.y, 118f, VH - 76f - r.height);
+                    rects[i] = r;
+                }
+                if (!moved) break;
+            }
+
+            for (int i = 0; i < isles.Count; i++) DrawIsleLabel(isles[i], rects[i]);
+        }
+
+        void DrawIsleLabel(MapIsle mi, Rect r)
+        {
             if (mi.index < 0)
             {
-                Rect hr = new Rect(g.x - 110f, g.y - 22f, 220f, 44f);
-                DrawBox(hr, new Color(1f, 1f, 1f, 0.6f));
-                DrawText(hr, "Hot Spring 溫泉", 22, Ink);
+                DrawBox(r, new Color(1f, 1f, 1f, 0.6f));
+                DrawText(r, "Hot Spring 溫泉", 21, Ink);
                 return;
             }
-            // Keep labels on screen and below the title.
-            g.x = Mathf.Clamp(g.x, 140f, vw - 140f);
-            g.y = Mathf.Clamp(g.y, 160f, VH - 130f);
             IslandDef d = islands[mi.index];
             bool locked = mi.index > unlocked;
-            Rect r = new Rect(g.x - 110f, g.y - 42f, 220f, 84f);
             bool hover = !settingsOpen && r.Contains(Event.current.mousePosition);
             DrawBox(r, locked ? new Color(0.85f, 0.85f, 0.95f, hover ? 0.7f : 0.5f) : new Color(1f, 1f, 1f, hover ? 0.85f : 0.6f));
             DrawText(new Rect(r.x, r.y + 2f, r.width, 28f), d.nameEn, 21, Ink);
@@ -437,7 +495,7 @@ namespace PhonicsIsland
             }
             else
             {
-                DrawText(status, d.focus, 20, Purple);
+                DrawText(status, d.focus, 18, Purple);
             }
             int idx = mi.index;
             if (!settingsOpen && GUI.Button(r, GUIContent.none, GUIStyle.none)) Defer(() => GoToIsland(idx));

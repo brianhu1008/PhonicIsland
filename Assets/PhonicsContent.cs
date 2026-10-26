@@ -183,7 +183,7 @@ namespace PhonicsIsland
 
             var forest = new IslandDef
             {
-                nameEn = "Letter Forest", nameZh = "字母森林", focus = "a  e  i  o  u", focusZh = "字母音、短母音",
+                nameEn = "Letter Forest", nameZh = "字母森林", focus = "a e i o u", focusZh = "字母音、短母音",
                 theme = Theme.Forest, npcName = "Momo", npcAcc = Acc.Flower, npcFur = new Color(1f, 0.88f, 0.78f),
                 npcAccColor = new Color(1f, 0.55f, 0.75f), bossName = "Grumpy Gus", bossAcc = Acc.Hat,
                 bossAccColor = new Color(0.3f, 0.55f, 0.3f),
@@ -200,7 +200,7 @@ namespace PhonicsIsland
 
             var cave = new IslandDef
             {
-                nameEn = "Sound Cave", nameZh = "組合音洞穴", focus = "sh  ch  th", focusZh = "子音組合",
+                nameEn = "Sound Cave", nameZh = "組合音洞穴", focus = "sh ch th", focusZh = "子音組合",
                 theme = Theme.Cave, npcName = "Kiki", npcAcc = Acc.Glasses, npcFur = new Color(1f, 0.97f, 0.85f),
                 npcAccColor = new Color(0.2f, 0.2f, 0.3f), bossName = "Sneaky Sid", bossAcc = Acc.Bandana,
                 bossAccColor = new Color(0.55f, 0.3f, 0.75f),
@@ -208,7 +208,7 @@ namespace PhonicsIsland
                 {
                     L("Hello! I am Kiki. Two letters can make one sound!", "哈囉！我是 Kiki。兩個字母可以一起發一個聲音！"),
                     L("s + h = /sh/,  c + h = /ch/,  t + h = /th/.", "sh 像「噓」，ch 像「去」，th 要輕咬舌頭。",
-                        "s, h, says {sh:ʃ}. c, h, says {ch:tʃ}. t, h, says {th:θ}."),
+                        "{sh:ʃ}, {sh:ʃ}, like ship. {ch:tʃ}, {ch:tʃ}, like chick. {th:θ}, {th:θ}, like three."),
                     L("Sneaky Sid is hiding in the cave! Let's go!", "鬼鬼祟祟的 Sid 躲在洞穴裡！出發！")
                 }
             };
@@ -217,7 +217,7 @@ namespace PhonicsIsland
 
             var beach = new IslandDef
             {
-                nameEn = "Word Beach", nameZh = "單字海灘", focus = "ee  ea  ai  ay", focusZh = "長母音組合、單字聽辨",
+                nameEn = "Word Beach", nameZh = "單字海灘", focus = "ee ea ai ay", focusZh = "長母音組合、單字聽辨",
                 theme = Theme.Beach, npcName = "Sunny", npcAcc = Acc.SunHat, npcFur = new Color(1f, 0.82f, 0.66f),
                 npcAccColor = new Color(1f, 0.85f, 0.45f), bossName = "Salty Sam", bossAcc = Acc.TopHat,
                 bossAccColor = new Color(0.2f, 0.35f, 0.7f),
@@ -226,7 +226,7 @@ namespace PhonicsIsland
                 {
                     L("Hi! I am Sunny. Two vowels together can say a long sound!", "嗨！我是 Sunny。兩個母音在一起會發長音！"),
                     L("ee, ea say /ee/.  ai, ay say /ay/.", "ee、ea 念 /i/，ai、ay 念 /e/。",
-                        "e e, and e a, say {ee:i}. a i, and a y, say {ay:eɪ}."),
+                        "{ee:i}, {ee:i}, like tree and leaf. {ay:eɪ}, {ay:eɪ}, like rain and crayon."),
                     L("Salty Sam hid things on the beach. Listen, then walk and find them!", "Salty Sam 把東西藏在沙灘上。聽一聽，走過去找出來！")
                 }
             };
@@ -235,7 +235,7 @@ namespace PhonicsIsland
 
             var valley = new IslandDef
             {
-                nameEn = "Spelling Valley", nameZh = "拼字山谷", focus = "oo  ou  ow  oi  oy", focusZh = "母音組合、看圖拼字",
+                nameEn = "Spelling Valley", nameZh = "拼字山谷", focus = "oo ou ow oi oy", focusZh = "母音組合、看圖拼字",
                 theme = Theme.Valley, npcName = "Pebble", npcAcc = Acc.Hat, npcFur = new Color(0.88f, 0.84f, 0.8f),
                 npcAccColor = new Color(0.9f, 0.4f, 0.35f), bossName = "Thorny Tom", bossAcc = Acc.Bandana,
                 bossAccColor = new Color(0.95f, 0.55f, 0.15f),
@@ -243,8 +243,9 @@ namespace PhonicsIsland
                 {
                     L("Hello! I am Pebble. oo has two sounds!", "哈囉！我是 Pebble。oo 有兩種念法！"),
                     L("oo in moon is long. oo in book is short.", "moon 的 oo 拉長音，book 的 oo 短短的。",
-                        "o o, in moon, is long. o o, in book, is short."),
-                    L("ow in cow, oi in coin, oy in boy. Let's spell with Thorny Tom!", "cow 的 ow、coin 的 oi、boy 的 oy。來跟 Tom 比拼字！")
+                        "Moon, {oo:u}, {oo:u}, long. Book, {oo:ʊ}, {oo:ʊ}, short."),
+                    L("ow in cow, oi in coin, oy in boy. Let's spell with Thorny Tom!", "cow 的 ow、coin 的 oi、boy 的 oy。來跟 Tom 比拼字！",
+                        "{ow:aʊ}, like cow. {oi:ɔɪ}, like coin and boy. Let's spell with Thorny Tom!")
                 }
             };
             valley.make = GenValley;
@@ -252,7 +253,7 @@ namespace PhonicsIsland
 
             var village = new IslandDef
             {
-                nameEn = "Sentence Village", nameZh = "句型村莊", focus = "I see...  I like...  -s / -es", focusZh = "簡單句型、複數",
+                nameEn = "Sentence Village", nameZh = "句型村莊", focus = "I see...  -s / -es", focusZh = "簡單句型、複數",
                 theme = Theme.Village, npcName = "Mayor Bun", npcAcc = Acc.TopHat, npcFur = new Color(1f, 0.92f, 0.9f),
                 npcAccColor = new Color(0.25f, 0.2f, 0.3f), bossName = "Bossy Bea", bossAcc = Acc.Hat,
                 bossAccColor = new Color(0.95f, 0.45f, 0.65f),
@@ -268,7 +269,7 @@ namespace PhonicsIsland
 
             var castle = new IslandDef
             {
-                nameEn = "Monster Castle", nameZh = "怪物城堡", focus = "Review everything!", focusZh = "混合複習",
+                nameEn = "Monster Castle", nameZh = "怪物城堡", focus = "Review all!", focusZh = "混合複習",
                 theme = Theme.Castle, npcName = "Grandpa Yuzu", npcAcc = Acc.Glasses, npcFur = new Color(0.82f, 0.82f, 0.82f),
                 npcAccColor = new Color(0.25f, 0.2f, 0.2f), bossName = "King Grumble", bossAcc = Acc.Crown,
                 bossAccColor = new Color(1f, 0.82f, 0.2f), bossScale = 1.6f, isReview = true, easyCount = 6, hardCount = 10,
