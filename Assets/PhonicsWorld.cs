@@ -106,10 +106,11 @@ namespace PhonicsIsland
 
         GameObject Prim(PrimitiveType type, string name, Transform parent, Vector3 pos, Vector3 scale, Material mat)
         {
-            GameObject g = GameObject.CreatePrimitive(type);
-            g.name = name;
-            Collider col = g.GetComponent<Collider>();
-            if (col != null) Destroy(col);
+            // Built-in meshes without colliders (CreatePrimitive would add colliders, which the
+            // web build's stripped physics module can't create).
+            GameObject g = new GameObject(name);
+            g.AddComponent<MeshFilter>().sharedMesh = PrimMesh(type);
+            g.AddComponent<MeshRenderer>();
             g.transform.SetParent(parent, false);
             g.transform.localPosition = pos;
             g.transform.localScale = scale;
@@ -136,6 +137,26 @@ namespace PhonicsIsland
         {
             float a = angleDeg * Mathf.Deg2Rad;
             return new Vector3(Mathf.Cos(a) * radius, y, Mathf.Sin(a) * radius);
+        }
+
+        static readonly Dictionary<PrimitiveType, Mesh> primMeshes = new Dictionary<PrimitiveType, Mesh>();
+
+        static Mesh PrimMesh(PrimitiveType type)
+        {
+            Mesh m;
+            if (!primMeshes.TryGetValue(type, out m))
+            {
+                // Copies of the primitive meshes saved by BuildGame (Resources/PrimMeshes).
+                m = Resources.Load<Mesh>("PrimMeshes/" + type);
+                if (m == null)
+                {
+                    GameObject tmp = GameObject.CreatePrimitive(type);
+                    m = tmp.GetComponent<MeshFilter>().sharedMesh;
+                    Destroy(tmp);
+                }
+                primMeshes[type] = m;
+            }
+            return m;
         }
 
         void SetupScene()

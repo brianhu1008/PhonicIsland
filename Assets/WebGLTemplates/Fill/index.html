@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+  <title>Phonics Island 卡皮巴拉自然發音大冒險</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #9fd3f7; }
+    #unity-canvas { width: 100%; height: 100%; display: block; background: #9fd3f7; outline: none; }
+    #loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+               font: bold 28px "Microsoft JhengHei", "PingFang TC", sans-serif; color: #3a2a5a; }
+    #bar { width: 60%; max-width: 480px; height: 18px; border-radius: 9px; background: rgba(255,255,255,0.6); margin-top: 18px; overflow: hidden; }
+    #fill { height: 100%; width: 0; background: #ffb347; transition: width 0.2s; }
+    #error { color: #b00020; font-size: 20px; margin-top: 16px; max-width: 80%; text-align: center; }
+  </style>
+</head>
+<body>
+  <canvas id="unity-canvas" tabindex="-1"></canvas>
+  <div id="loading">
+    <div>卡皮巴拉自然發音大冒險　載入中…</div>
+    <div id="bar"><div id="fill"></div></div>
+    <div id="error"></div>
+  </div>
+  <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+  <script>
+    var config = {
+      dataUrl: "Build/{{{ DATA_FILENAME }}}",
+      frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+#if USE_THREADS
+      workerUrl: "Build/{{{ WORKER_FILENAME }}}",
+#endif
+#if USE_WASM
+      codeUrl: "Build/{{{ CODE_FILENAME }}}",
+#endif
+#if MEMORY_FILENAME
+      memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+      symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+#endif
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+    };
+    var canvas = document.querySelector("#unity-canvas");
+    createUnityInstance(canvas, config, function (p) {
+      document.querySelector("#fill").style.width = (100 * p) + "%";
+    }).then(function () {
+      document.querySelector("#loading").style.display = "none";
+      canvas.focus();
+    }).catch(function (e) {
+      document.querySelector("#error").textContent = "載入失敗：" + e;
+    });
+    canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+  </script>
+</body>
+</html>

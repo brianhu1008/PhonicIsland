@@ -44,3 +44,12 @@
 - 3D 卡皮巴拉模型："Capybara" by Poly by Google，[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)，來源 <https://poly.pizza/m/66d-mKAgF17>（遊戲中只調整顏色）
 - 音效：[Kenney](https://www.kenney.nl)（Interface Sounds、Impact Sounds、Music Jingles），CC0
 - 單字圖片：Microsoft Fluent Emoji 風格的表情符號，由 Windows 內建的 Segoe UI Emoji 字型繪製
+- 中文字型（網頁版）：思源黑體 Noto Sans TC（Google Fonts），[SIL OFL 1.1](Assets/Resources/Fonts/OFL.txt)；只保留遊戲用到的字並改名為 "Phonics Island Font"
+
+## 網頁版
+
+直接在瀏覽器玩：<https://brianhu1008.github.io/PhonicIsland/>
+
+- 雙擊 `BuildWeb.bat` 會重新打包網頁版到 `docs/`，再上傳 GitHub，網頁版 1～2 分鐘後更新。
+- 網頁版用瀏覽器內建的英文語音（Chrome、Edge 的語音比較好聽）。
+- 遊戲裡新增中文字後，要用 `Tools/make_font.py` 重新產生字型，網頁版才顯示得出來。

@@ -164,8 +164,14 @@ namespace PhonicsIsland
             roundTex = MakeRoundTex(48, 14);
             starTex = MakeStarTex();
             lockTex = MakeLockTex();
+#if UNITY_WEBGL && !UNITY_EDITOR
+            // Browsers can't use the computer's fonts: use the bundled font (Noto Sans TC subset, see Tools/make_font.py).
+            fontEn = Resources.Load<Font>("Fonts/GameFont");
+            fontZh = fontEn;
+#else
             fontEn = Font.CreateDynamicFontFromOSFont(new[] { "Comic Sans MS", "Arial" }, 32);
             fontZh = Font.CreateDynamicFontFromOSFont(new[] { "Microsoft JhengHei UI", "Microsoft JhengHei", "Microsoft YaHei", "Arial" }, 32);
+#endif
             styPanel = new GUIStyle();
             styPanel.normal.background = roundTex;
             styPanel.border = new RectOffset(16, 16, 16, 16);

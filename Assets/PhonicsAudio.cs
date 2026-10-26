@@ -81,10 +81,47 @@ namespace PhonicsIsland
                 voiceSrc.Play();
                 return;
             }
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if UNITY_WEBGL && !UNITY_EDITOR
+            PhonicsSpeak(WebSpeechText(text));
+#elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
             SpeakWindows(text);
 #endif
         }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // Browser speech (Plugins/WebGL/PhonicsSpeech.jslib). It has no IPA support,
+        // so single sounds are written the way an English voice reads them.
+        [System.Runtime.InteropServices.DllImport("__Internal")]
+        static extern void PhonicsSpeak(string text);
+
+        static readonly System.Collections.Generic.Dictionary<string, string> IpaSpelling =
+            new System.Collections.Generic.Dictionary<string, string>
+            {
+                { "æ", "aah" }, { "ɛ", "eh" }, { "ɪ", "ih" }, { "ɑ", "ah" }, { "ʌ", "uh" },
+                { "ʃ", "shh" }, { "tʃ", "ch" }, { "θ", "th" }, { "i", "ee" }, { "eɪ", "ay" }, { "w", "wuh" }
+            };
+
+        static string WebSpeechText(string text)
+        {
+            var sb = new StringBuilder();
+            int i = 0;
+            while (i < text.Length)
+            {
+                int open = text.IndexOf('{', i);
+                int close = open < 0 ? -1 : text.IndexOf('}', open);
+                if (open < 0 || close < 0) { sb.Append(text, i, text.Length - i); break; }
+                sb.Append(text, i, open - i);
+                string inner = text.Substring(open + 1, close - open - 1);
+                int colon = inner.IndexOf(':');
+                string spoken;
+                if (colon < 0) spoken = inner;
+                else if (!IpaSpelling.TryGetValue(inner.Substring(colon + 1), out spoken)) spoken = inner.Substring(0, colon);
+                sb.Append(spoken);
+                i = close + 1;
+            }
+            return sb.ToString();
+        }
+#endif
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         System.Diagnostics.Process ttsProc;

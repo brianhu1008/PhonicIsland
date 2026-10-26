@@ -19,3 +19,6 @@
 .claude/
 .DS_Store
 Thumbs.db
+
+# Burst output from web builds
+/Data/
