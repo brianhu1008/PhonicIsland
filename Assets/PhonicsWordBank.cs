@@ -50,7 +50,8 @@ namespace PhonicsIsland
 
         static readonly Dictionary<string, string> DigraphIpa = new Dictionary<string, string>
         {
-            { "sh", "ʃ" }, { "ch", "tʃ" }, { "th", "θ" }, { "wh", "w" }
+            // ch / th get a short vowel so the sound is clear (like 去), not swallowed.
+            { "sh", "ʃ" }, { "ch", "tʃə" }, { "th", "θə" }, { "wh", "w" }
         };
 
         // Consonant blends (two consonants, both heard)

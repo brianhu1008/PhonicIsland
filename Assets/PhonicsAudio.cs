@@ -99,7 +99,7 @@ namespace PhonicsIsland
             {
                 { "æ", "aah" }, { "ɛ", "eh" }, { "ɪ", "ih" }, { "ɑ", "ah" }, { "ʌ", "uh" },
                 // Spelled so voices say the combined sound, never the letter names ("ch" alone is read "C H").
-                { "ʃ", "shh" }, { "tʃ", "chuh" }, { "θ", "thuh" }, { "i", "ee" }, { "eɪ", "ay" }, { "w", "wuh" },
+                { "ʃ", "shh" }, { "tʃ", "chuh" }, { "θ", "thuh" }, { "tʃə", "chuh" }, { "θə", "thuh" }, { "i", "ee" }, { "eɪ", "ay" }, { "w", "wuh" },
                 { "u", "ooh" }, { "ʊ", "uh" }, { "aʊ", "ow" }, { "ɔɪ", "oy" }
             };
 

@@ -208,7 +208,7 @@ namespace PhonicsIsland
                 {
                     L("Hello! I am Kiki. Two letters can make one sound!", "哈囉！我是 Kiki。兩個字母可以一起發一個聲音！"),
                     L("s + h = /sh/,  c + h = /ch/,  t + h = /th/.", "sh 像「噓」，ch 像「去」，th 要輕咬舌頭。",
-                        "{sh:ʃ}, {sh:ʃ}, like ship. {ch:tʃ}, {ch:tʃ}, like chick. {th:θ}, {th:θ}, like three."),
+                        "s, h, {sh:ʃ}. c, h, {ch:tʃə}. t, h, {th:θə}."),
                     L("Sneaky Sid is hiding in the cave! Let's go!", "鬼鬼祟祟的 Sid 躲在洞穴裡！出發！")
                 }
             };
